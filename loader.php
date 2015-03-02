@@ -1,6 +1,6 @@
 <?php
 /*
- Plugin Name: xProfile Select2
+ Plugin Name: BuddyPress xProfile Select2
  Plugin URI: http://themekraft.com/
  Description: select2
  Version: 1.0
@@ -29,31 +29,28 @@
  */
 
 
-add_action('init', 'xprofile_select2_includes', 10);
-function xprofile_select2_includes(){
-    include_once(dirname(__FILE__) . '/includes/field-types/selectbox2.php');
-    include_once(dirname(__FILE__) . '/includes/field-types/multiselectbox2.php');
-}
+function xprofile_select2_init() {
 
-add_filter( 'bp_xprofile_get_field_types', 'xprofile_select2_field_types', 10, 1 );
+    include_once(dirname(__FILE__) . '/includes/field-types/multiselectbox2.php');
+
+    add_filter( 'bp_xprofile_get_field_types', 'xprofile_select2_field_types', 10, 1 );
+    add_action('bp_init', 'xprofile_select2_enqueue_script');
+}
+add_action( 'bp_include', 'xprofile_select2_init' );
 
 function xprofile_select2_field_types($fields) {
     $new_fields = array(
-        'selectbox2'  => 'BP_XProfile_Field_Type_Selectbox2',
         'multiselectbox2'  => 'BP_XProfile_Field_Type_Multiselectbox2',
-
     );
     $fields = array_merge($fields, $new_fields);
 
     return $fields;
 }
 
-add_action('bp_init', 'xprofile_select2_enqueue_script');
-
 function xprofile_select2_enqueue_script(){
     if (bp_is_user_profile_edit() || bp_is_register_page()) {
-        wp_enqueue_script(	'xProfile-select2-js',          plugins_url('includes/resources/select2/select2.min.js', __FILE__) , array( 'jquery' ), '3.5.2' );
-        wp_enqueue_style(	'buddyforms-select2-css',       plugins_url('includes/resources/select2/select2.css', __FILE__));
+        wp_enqueue_script(	'xProfile-select2-js',        plugins_url('includes/resources/select2/select2.min.js', __FILE__) , array( 'jquery' ), '3.5.2' );
+        wp_enqueue_style(	'xProfile-select2-css',       plugins_url('includes/resources/select2/select2.css', __FILE__));
 
         wp_enqueue_script(	'xProfile-select2-custom-js',   plugins_url('assets/js/xprofile-select2.js', __FILE__) , array( 'jquery' ) );
         wp_enqueue_style(	'xProfile-select2-custom-css',  plugins_url('assets/css/xprofile-select2.css', __FILE__));

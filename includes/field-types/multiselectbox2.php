@@ -68,7 +68,8 @@ class BP_XProfile_Field_Type_Multiselectbox2 extends BP_XProfile_Field_Type {
         <script>
             jQuery(document).ready(function (){
                 jQuery(".<?php echo bp_get_the_profile_field_input_name() ?>-select2").select2({
-                    maximumSelectionSize: <?php echo $xprofile_select2_maximum_selection_size ?>
+                    <?php if($xprofile_select2_maximum_selection_size)
+                    echo 'maximumSelectionSize:'  . $xprofile_select2_maximum_selection_size ?>
                 });
             });
         </script>
@@ -78,19 +79,12 @@ class BP_XProfile_Field_Type_Multiselectbox2 extends BP_XProfile_Field_Type {
         /** This action is documented in bp-xprofile/bp-xprofile-classes */
         do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-        <select class="<?php echo bp_get_the_profile_field_input_name() ?>-select2 required-field" <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+        <select class="<?php echo bp_get_the_profile_field_input_name() ?>-select2" <?php echo $this->get_edit_field_html_elements( $r ); ?>>
             <?php bp_the_profile_field_options( array(
                 'user_id' => $user_id
             ) ); ?>
         </select>
 
-        <?php if ( ! bp_get_the_profile_field_is_required() ) : ?>
-
-            <a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>[]' );">
-                <?php esc_html_e( 'Clear', 'buddypress' ); ?>
-            </a>
-
-        <?php endif; ?>
     <?php
     }
 
@@ -192,7 +186,7 @@ class BP_XProfile_Field_Type_Multiselectbox2 extends BP_XProfile_Field_Type {
      * @param string $control_type Optional. HTML input type used to render the current field's child options.
      * @since BuddyPress (2.0.0)
      */
-    public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
+    public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = 'radio' ) {
         $type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
         if ( false === $type ) {
             return;
@@ -219,8 +213,8 @@ class BP_XProfile_Field_Type_Multiselectbox2 extends BP_XProfile_Field_Type {
                 </p>
 
                 <p>
-                    <label for="sort_order_<?php echo esc_attr( $type ); ?>"><?php esc_html_e( 'Sort Order:', 'buddypress' ); ?></label>
-                    <input type='text' name='xprofile-select2-maximum-selection-size' id='xprofile-select2-maximum-selection-size' class='xprofile-select2-text' value ='<?php echo $xprofile_select2_maximum_selection_size ?>' />
+                    <label for="maximum-selection-size"><?php esc_html_e( 'Maximum Selection Size:', 'buddypress' ); ?></label>
+                    <input type='number' name='xprofile-select2-maximum-selection-size' id='xprofile-select2-maximum-selection-size' class='xprofile-select2-text' value ='<?php echo $xprofile_select2_maximum_selection_size ?>' />
                 </p>
 
                 <?php
