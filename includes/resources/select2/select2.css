@@ -405,7 +405,7 @@ html[dir="rtl"] .select2-results {
 
 .select2-results .select2-highlighted {
     background: #3875d7;
-    color: #fff;
+    color: #000;
 }
 
 .select2-results li em {

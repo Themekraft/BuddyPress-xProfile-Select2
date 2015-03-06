@@ -34,7 +34,7 @@ function xprofile_select2_init() {
     include_once(dirname(__FILE__) . '/includes/field-types/multiselectbox2.php');
 
     add_filter( 'bp_xprofile_get_field_types', 'xprofile_select2_field_types', 10, 1 );
-    add_action('bp_init', 'xprofile_select2_enqueue_script');
+    add_action( 'bp_init', 'xprofile_select2_enqueue_script');
 }
 add_action( 'bp_include', 'xprofile_select2_init' );
 
